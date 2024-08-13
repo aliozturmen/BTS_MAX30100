@@ -14,11 +14,8 @@ void onBeatDetected()
 void setup()
 {
     Serial.begin(115200);
-    Serial.print("Initializing pulse oximeter..");
- 
-    // Initialize the PulseOximeter instance
-    // Failures are generally due to an improper I2C wiring, missing power supply
-    // or wrong target chip
+    Serial.print("Ayarlanıyor");
+
     if (!pox.begin()) {
         Serial.println("FAILED");
         for(;;);
@@ -26,14 +23,13 @@ void setup()
         Serial.println("SUCCESS");
     }
      pox.setIRLedCurrent(MAX30100_LED_CURR_7_6MA);
- 
-    // Register a callback for the beat detection
+
     pox.setOnBeatDetectedCallback(onBeatDetected);
 }
  
 void loop()
 {
-    // Make sure to call update as fast as possible
+
     pox.update();
     if (millis() - tsLastReport > REPORTING_PERIOD_MS) {
         Serial.print("Heart rate:");
